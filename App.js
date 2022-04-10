@@ -1,112 +1,50 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+// import AsyncStorage from '@react-native-community/async-storage';
+import {NavigationContainer} from '@react-navigation/native';
+import { NativeBaseProvider } from 'native-base';
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { LogBox } from 'react-native';
+import { UIStack} from './src/navigation/ui-stack';
+import SplashScreen from './src/screens/Splash';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+function App(props) {
+  /* -------------------------------------------------------------------------- */
+  /*                               UseState Section                             */
+  /* -------------------------------------------------------------------------- */
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+  const [isVisible, setIsVisible] = React.useState(true);
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  /* -------------------------------------------------------------------------- */
+  /*                               UseEffect Section                            */
+  /* -------------------------------------------------------------------------- */
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  React.useEffect(() => {
+    // AsyncStorage.setItem("access_token", 'authenticated-token');
+    // removeAccessToken('access_token')
+    setTimeout(function () {
+      Hide_Splash_Screen();
+    }, 2000);
+  }, []);
+
+  /* -------------------------------------------------------------------------- */
+  /*                               On change Section                            */
+  /* -------------------------------------------------------------------------- */
+
+  const Hide_Splash_Screen = () => {
+    setIsVisible(!isVisible);
   };
-
+  LogBox.ignoreAllLogs(true)
+  LogBox.ignoreLogs([
+    "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+  ]);
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NativeBaseProvider>
+    <NavigationContainer>
+      {isVisible ? <SplashScreen /> :
+       <UIStack />
+        } 
+    </NavigationContainer>
+    </NativeBaseProvider>
   );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+}
 
 export default App;
