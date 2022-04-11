@@ -9,7 +9,6 @@ import Products from '../screens/DrawerScreens/Products';
 import {colors} from '../common/colors';
 import {hp} from '../dimensions';
 import AboutUs from '../screens/DrawerScreens/AboutUs';
-import RegisterScreen from '../screens/Register';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -19,14 +18,6 @@ export const UIStack = () => {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{
-          headerShown: false,
-          headerBackTitleVisible: false,
-        }}
-      />
-         <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
         options={{
           headerShown: false,
           headerBackTitleVisible: false,

@@ -11,7 +11,7 @@ export const Loginstyles = StyleSheet.create({
   container1: {
     flex: 1,
     alignSelf: 'center',
-    height: height / 2,
+    height: hp(height / 3),
     backgroundColor: '#cb202d',
     width: '100%',
   },
@@ -83,7 +83,7 @@ export const Loginstyles = StyleSheet.create({
     overflow: 'hidden',
   },
   footerText: {
-    fontSize:12,
+    fontSize: 12,
     color: colors.gray,
     width: '90%',
     alignSelf: 'center',
@@ -106,7 +106,7 @@ export const Loginstyles = StyleSheet.create({
   },
 
   textInputWrapper: {
-    marginLeft: 8,
+    // marginLeft: 8,
     borderColor: colors.textGray,
     borderWidth: 1,
   },
@@ -142,7 +142,6 @@ export const Loginstyles = StyleSheet.create({
   submitWraper: {
     borderWidth: 1,
     justifyContent: 'center',
-    bottom: 0,
     // width: wp(width - 76),
     width: '100%',
     alignSelf: 'center',
