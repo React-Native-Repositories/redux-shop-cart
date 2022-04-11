@@ -1,21 +1,99 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {colors} from '../../common/colors';
 import {hp, wp} from '../../dimensions';
+const {width, height} = Dimensions.get('window');
 
 export const Loginstyles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: colors.white,
   },
-  LoginContainer: {
+  container1: {
     flex: 1,
+    alignSelf: 'center',
+    height: height / 2,
+    backgroundColor: '#cb202d',
+    width: '100%',
+  },
+  container2: {
+    flex: 1,
+    width: '100%',
+    alignSelf: 'center',
+    // backgroundColor: 'red',
+  },
+  headerText: {
+    fontSize: 25,
+    color: colors.black,
+    fontFamily: 'GoogleSans-Bold',
+    alignSelf: 'center',
+    textAlign: 'center',
+    marginTop: hp(20),
+    width: '80%',
+  },
+  headerSeperator: {
+    width: '80%',
+    marginTop: hp(20),
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+
+  LoginContainer: {
     alignItems: 'center',
     fontFamily: 'GoogleSans-Medium',
   },
+  seperateWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: hp(20),
+    width: '80%',
+    alignSelf: 'center',
+    marginBottom: hp(20),
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.textGray,
+  },
+  lineText: {
+    textAlign: 'center',
+    marginLeft: 5,
+    marginRight: 5,
+    color: colors.black,
+  },
+  iconWraper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginTop: hp(20),
+    width: '50%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginBottom: hp(20),
+  },
+  iconView: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderColor: 'gray',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    alignSelf: 'center',
+    overflow: 'hidden',
+  },
+  footerText: {
+    fontSize:12,
+    color: colors.gray,
+    width: '90%',
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+
   textWrapper: {
-    marginTop: hp(48),
-    height: hp(20),
-    marginBottom: (40),
+    // marginTop: hp(48),
+    // height: hp(20),
+    // marginBottom: (40),
   },
 
   phoneWrapper: {
@@ -25,24 +103,6 @@ export const Loginstyles = StyleSheet.create({
     // width: wp(width - 76),
     width: '85%',
     alignItems: 'center',
-  },
-
-  pickerWrapper: {
-    backgroundColor: colors.black,
-    width: wp(24),
-  },
-  picker: {
-    borderWidth: 1,
-    width: wp(100),
-    color: 'white',
-    borderColor: colors.black,
-    backgroundColor: colors.black,
-  },
-
-  arrowWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 16,
   },
 
   textInputWrapper: {
@@ -87,18 +147,17 @@ export const Loginstyles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     marginTop: hp(16),
-    borderColor: colors.textGray,
-    borderWidth: 1,
+    borderColor: colors.white,
   },
   submitButton: {
-    backgroundColor: colors.white,
+    backgroundColor: '#cb202d',
     alignItems: 'center',
     justifyContent: 'center',
     height: hp(38),
-    borderRadius: 2,
+    borderRadius: 5,
   },
   submitText: {
-    color: colors.black,
+    color: colors.white,
     fontSize: 16,
     fontFamily: 'GoogleSans-Medium',
   },
@@ -125,11 +184,5 @@ export const Loginstyles = StyleSheet.create({
     paddingLeft: 24,
     borderWidth: 1,
     borderColor: 'red',
-  },
-  iconView: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginTop: 10,
   },
 });

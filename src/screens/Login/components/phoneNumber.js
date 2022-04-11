@@ -6,19 +6,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LogoLoginIconSvg from '../../../assets/svg/files/logo-login-svg';
 
 export default function UIPhoneNumber(props) {
+  const [countryCode, setCountryCode] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState(null);
-  const [password, setPassword] = useState('');
-
   return (
     <View style={Loginstyles.LoginContainer}>
-      <View style={Loginstyles.textWrapper}>
-        <LogoLoginIconSvg />
-      </View>
+      {/* <View style={Loginstyles.textWrapper}><LogoLoginIconSvg /></View> */}
       <View style={Loginstyles.formContainer}>
-        <View style={Loginstyles.iconView}>
-          <Icon name="call" size={20} color="gray" style={Loginstyles.icon} />
-          <Text style={Loginstyles.text}>Phone</Text>
-        </View>
         <View style={Loginstyles.textInputWrapper}>
           <TextInput
             style={
@@ -31,43 +24,13 @@ export default function UIPhoneNumber(props) {
             keyboardAppearance="dark"
           />
         </View>
-
-        <View style={Loginstyles.iconView}>
-          <Icon name="key" size={20} color="gray" style={Loginstyles.icon} />
-          <Text style={Loginstyles.text}>Password</Text>
-        </View>
-        <View style={Loginstyles.textInputWrapper}>
-          <TextInput
-            style={password ? Loginstyles.textInput : Loginstyles.placeholder}
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Enter Password"
-            placeholderTextColor={colors.gray}
-          />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={{marginTop: 10}}>Remember me ? </Text>
-          <Text style={{marginTop: 10}}>Forgot your password </Text>
-        </View>
         <View style={Loginstyles.submitWraper}>
           <TouchableOpacity
             raised
             style={Loginstyles.submitButton}
             icon={{name: 'check'}}
             onPress={() => props.onSubmitPhoneNumer('Main')}>
-            <Text style={Loginstyles.submitText}>Sign In</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={{marginTop: 10, alignSelf: 'center'}}>
-          New to Pravarsha ?{' '}
-        </Text>
-        <View style={Loginstyles.submitWraper}>
-          <TouchableOpacity
-            raised
-            style={Loginstyles.submitButton}
-            icon={{name: 'check'}}
-            onPress={() => props.onSubmitPhoneNumer('Register')}>
-            <Text style={Loginstyles.submitText}>Create Account</Text>
+            <Text style={Loginstyles.submitText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </View>
