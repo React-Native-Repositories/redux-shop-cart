@@ -5,6 +5,7 @@ import {colors} from '../../../common/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LogoLoginIconSvg from '../../../assets/svg/files/logo-login-svg';
 import PhoneInput from 'react-native-phone-number-input';
+import RBSheet from "react-native-raw-bottom-sheet";
 
 export default function UIPhoneNumber(props) {
   const [countryCode, setCountryCode] = useState(null);
@@ -18,6 +19,8 @@ export default function UIPhoneNumber(props) {
   // console.log(phoneInput.current.state)
   // console.log(value);
   // console.log(formattedValue)
+
+
   return (
     <View style={Loginstyles.LoginContainer}>
       <View style={Loginstyles.formContainer}>
@@ -39,6 +42,8 @@ export default function UIPhoneNumber(props) {
             }}
             textContainerStyle={{
               backgroundColor: 'white',
+              paddingLeft: 0,
+              borderRadius: 10,
             }}
             placeholder={'Enter Phone Number'}
             // autoFocus
@@ -53,6 +58,7 @@ export default function UIPhoneNumber(props) {
             <Text style={Loginstyles.submitText}>Continue</Text>
           </TouchableOpacity>
         </View>
+
       </View>
     </View>
   );

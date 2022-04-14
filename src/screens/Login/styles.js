@@ -107,8 +107,8 @@ export const Loginstyles = StyleSheet.create({
 
   textInputWrapper: {
     // marginLeft: 8,
-    borderColor: colors.textGray,
     borderWidth: 1,
+    borderColor: colors.textGray,
   },
   textInput: {
     fontSize: 18,
@@ -116,7 +116,7 @@ export const Loginstyles = StyleSheet.create({
     borderBottomColor: colors.textGray,
     borderColor: colors.textGray,
     color: colors.secondaryColor,
-    fontFamily: 'GoogleSans-Medium',
+    fontFamily: 'GoogleSans-Medium'
   },
   placeholder: {
     fontSize: 16,

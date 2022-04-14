@@ -1,11 +1,13 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import UIPhoneNumber from './components/phoneNumber';
 import {Loginstyles} from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LogoLoginIconSvg from '../../assets/svg/files/logo-login-svg';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {hp} from '../../dimensions';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import {colors} from '../../common/colors';
 
 export default function LoginScreen(props) {
   const onSubmitPhoneNumer = path => {
@@ -13,6 +15,7 @@ export default function LoginScreen(props) {
       name: path ? path : 'Main',
     });
   };
+  const refRBSheet = useRef();
 
   return (
     <KeyboardAwareScrollView style={Loginstyles.mainContainer}>
@@ -49,7 +52,9 @@ export default function LoginScreen(props) {
             />
           </TouchableOpacity>
           <View style={{marginLeft: 10, marginRight: 10}}></View>
-          <TouchableOpacity style={Loginstyles.iconView}>
+          <TouchableOpacity
+            style={Loginstyles.iconView}
+            onPress={() => refRBSheet.current.open()}>
             <Icon
               name="ellipsis-horizontal-sharp"
               size={20}
@@ -66,6 +71,82 @@ export default function LoginScreen(props) {
             Terms of Service, Privacy Policy and Content Policy
           </Text>
         </View>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#000',
+        }}>
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={false}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: colors.textGray,
+              width: '90%',
+              marginTop: 5,
+              borderRadius: 5,
+              flexDirection:'row',
+              alignSelf: 'center',
+              justifyContent:'center'
+            }}>
+              <Icon
+              name="md-logo-facebook"
+              size={25}
+              color="gray"
+              style={Loginstyles.icon}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                padding: 10,
+                fontSize: 16,
+                color: colors.gray,
+              }}>
+              Continue with Facebook
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: colors.textGray,
+              width: '90%',
+              marginTop: 5,
+              borderRadius: 5,
+              flexDirection:'row',
+              alignSelf: 'center',
+              justifyContent:'center'
+
+            }}>
+               <Icon
+              name="mail"
+              size={25}
+              color="gray"
+              style={Loginstyles.icon}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                padding: 10,
+                fontSize: 16,
+                color: colors.gray,
+              }}>
+              Continue with Email
+            </Text>
+          </TouchableOpacity>
+        </RBSheet>
       </View>
     </KeyboardAwareScrollView>
   );
