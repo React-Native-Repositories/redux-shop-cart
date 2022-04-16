@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {NativeBaseProvider} from 'native-base';
 import React from 'react';
 import {LogBox} from 'react-native';
+import UIBottomTabNavigator from './src/navigation/ui-bottom-tab';
 import {UIStack} from './src/navigation/ui-stack';
 import SplashScreen from './src/screens/Splash';
 
@@ -42,7 +43,7 @@ function App(props) {
         {/* {isVisible ? <SplashScreen /> :
        <UIStack />
         }  */}
-        <UIStack />
+        <UIBottomTabNavigator />
       </NavigationContainer>
     </NativeBaseProvider>
   );
