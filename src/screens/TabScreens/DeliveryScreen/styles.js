@@ -13,4 +13,10 @@ export const styles = StyleSheet.create({
   scroll: {
     // width:'90%'
   },
+  textHeader:{
+    color:colors.black,
+    fontWeight:'800',
+    fontSize:20,
+    marginBottom:5
+  }
 });
