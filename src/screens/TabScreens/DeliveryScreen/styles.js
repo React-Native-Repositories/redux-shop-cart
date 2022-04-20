@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scroll: {
-    // width:'90%'
+    width:'95%'
   },
   textHeader:{
     color:colors.black,
