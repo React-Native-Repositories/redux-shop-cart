@@ -9,6 +9,7 @@ import Products from '../screens/DrawerScreens/Products';
 import {colors} from '../common/colors';
 import {hp} from '../dimensions';
 import AboutUs from '../screens/DrawerScreens/AboutUs';
+import UIBottomTabNavigator from './ui-bottom-tab';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -26,12 +27,20 @@ export const UIStack = () => {
 
       <Stack.Screen
         name="Main"
-        component={DrawerStack}
+        component={UIBottomTabNavigator}
         options={{
           headerShown: false,
           headerBackTitleVisible: false,
         }}
       />
+      {/* <Stack.Screen
+        name="Main"
+        component={DrawerStack}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+        }}
+      /> */}
 
       <Stack.Screen
         name="Products"

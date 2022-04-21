@@ -6,7 +6,8 @@ import MoneyScreen from '../screens/TabScreens/MoneyScreen';
 import OfferScreen from '../screens/TabScreens/OfferScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Text, StyleSheet} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {hp, wp} from '../dimensions';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,19 +15,22 @@ function UIBottomTabNavigator(props) {
   const insets = useSafeAreaInsets();
 
   return (
-    <Tab.Navigator tabBarOptions={{showLabel: false}} screenOptions={{
-      tabBarStyle: {height: 60 + insets.bottom,},
-    }} >
+    <Tab.Navigator
+      tabBarOptions={{showLabel: false}}
+      screenOptions={{
+        tabBarStyle: {height: 60 + insets.bottom},
+      }}>
       <Tab.Screen
         name="Delivery"
         component={DeliveryScreen}
-        tabBarOptions={{
-          showLabel: false,
-        }}
-        
         options={{
           headerTitleStyle: {textAlign: 'left'},
-          headerShown: true,
+          headerTitle: () => {
+            <View>
+              <Text style={{color: 'black'}}>Home</Text>
+            </View>;
+          },
+          headerShown: false,
           headerTitleAlign: 'left',
           tabBarActiveTintColor: '#cb202d',
           tabBarIcon: ({focused}) => {
@@ -42,7 +46,12 @@ function UIBottomTabNavigator(props) {
               </View>
             );
           },
-          
+          headerLeft: () => (
+            <View style={styles.location}>
+              <Icon name="location-outline" size={25} color={'#cb202d'} />
+            </View>
+          ),
+          headerRight: () => <View style={styles.profile}></View>,
         }}
       />
       <Tab.Screen
@@ -164,6 +173,16 @@ const styles = StyleSheet.create({
     color: 'black',
     backgroundColor: 'transparent',
     fontSize: 10,
+  },
+  profile: {
+    height: 30,
+    width: 30,
+    backgroundColor: '#cb202d',
+    borderRadius: 15,
+    right: 12,
+  },
+  location: {
+    left: 8,
   },
 });
 

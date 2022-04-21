@@ -40,10 +40,10 @@ function App(props) {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        {/* {isVisible ? <SplashScreen /> :
+        {isVisible ? <SplashScreen /> :
        <UIStack />
-        }  */}
-        <UIBottomTabNavigator />
+        } 
+        {/* <UIBottomTabNavigator /> */}
       </NavigationContainer>
     </NativeBaseProvider>
   );

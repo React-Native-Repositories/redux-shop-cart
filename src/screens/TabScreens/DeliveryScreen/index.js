@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,6 +10,7 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import CircleSlider from '../../../components/CircleSlider';
 import FlatListSlider from '../../../components/FlatlistSlider/FlatListSlider';
@@ -19,6 +20,10 @@ import OffersSlider from '../../../components/OffersSlider';
 import VerticalSlider from '../../../components/VerticalSlider';
 import {hp, wp} from '../../../dimensions';
 import {styles} from './styles';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {colors} from '../../../common/colors';
+import RBSheet from 'react-native-raw-bottom-sheet';
+
 // https://unsplash.com/s/photos/dish
 
 function DeliveryScreen(props) {
@@ -158,15 +163,13 @@ function DeliveryScreen(props) {
         {
           key: '1',
           text: 'Item text 1',
-          uri: 
-          'https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/zomato-banner-change_74B641A1E3AE1100D7015078982A3409.jpg'
+          uri: 'https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/zomato-banner-change_74B641A1E3AE1100D7015078982A3409.jpg',
         },
         {
           key: '2',
           text: 'Item text 2',
-          uri:
-          'https://1.bp.blogspot.com/-WNaYoUomcWk/YFttaeIyqgI/AAAAAAAAFyM/8QsgI01mWU0Zb3XFj-3cQerCZRBAysglQCLcBGAsYHQ/s800/Zomato%2Bsbi.png'
-        }
+          uri: 'https://1.bp.blogspot.com/-WNaYoUomcWk/YFttaeIyqgI/AAAAAAAAFyM/8QsgI01mWU0Zb3XFj-3cQerCZRBAysglQCLcBGAsYHQ/s800/Zomato%2Bsbi.png',
+        },
       ],
     },
   ];
@@ -185,9 +188,37 @@ function DeliveryScreen(props) {
   /*                               Onchange section                             */
   /* -------------------------------------------------------------------------- */
   const screenWidth = Math.round(Dimensions.get('window').width);
+  const refRBSheet = useRef();
 
   return (
     <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerLeft}>
+          <View style={styles.location}>
+            <Icon name="location-outline" size={25} color={colors.red} />
+          </View>
+          <View style={styles.address}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.addressText}>Home</Text>
+              <TouchableOpacity onPress={() => refRBSheet.current.open()}>
+                <Icon
+                  name="ios-chevron-down-outline"
+                  size={25}
+                  color={colors.red}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.addressDescription}>
+              Dno 12-7/1, Tarakarama Street, Tiruchano..
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+          <View style={styles.headerRight}>
+            <View style={styles.profile}></View>
+          </View>
+        </TouchableOpacity>
+      </View>
       <ScrollView style={styles.scroll}>
         <FlatListSlider
           data={data}
@@ -226,29 +257,97 @@ function DeliveryScreen(props) {
         <HorizontalSlider data={SECTIONS} />
         <Text style={styles.textHeader}>Recommended for you</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>Featured restaurants</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>Amazing biryani</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>Lunch bestsellers</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>Pizza for lunch</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>Value for money</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>Must try shawarma</Text>
         <HorizontalSlider data={SECTIONS} />
-
         <Text style={styles.textHeader}>222 restaurants around you</Text>
         <VerticalSlider data={SECTIONS1} />
-        <View style={{marginTop:10}}></View>
+        <View style={{marginTop: 10}}></View>
       </ScrollView>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#000',
+        }}>
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={false}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: colors.textGray,
+              width: '90%',
+              marginTop: 5,
+              borderRadius: 5,
+              flexDirection: 'row',
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon
+              name="location"
+              size={25}
+              color="gray"
+              style={{alignSelf: 'center', overflow: 'hidden'}}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                padding: 10,
+                fontSize: 16,
+                color: colors.gray,
+              }}>
+              Address1
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: colors.textGray,
+              width: '90%',
+              marginTop: 5,
+              borderRadius: 5,
+              flexDirection: 'row',
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon
+              name="location"
+              size={25}
+              color="gray"
+              style={{alignSelf: 'center', overflow: 'hidden'}}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                padding: 10,
+                fontSize: 16,
+                color: colors.gray,
+              }}>
+              Address2
+            </Text>
+          </TouchableOpacity>
+        </RBSheet>
+      </View>
     </SafeAreaView>
   );
 }
