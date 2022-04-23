@@ -19,6 +19,14 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 5,
   },
+  headerWraper:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textHeaderLeft:{
+    color:colors.red,
+    fontSize:14
+  },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

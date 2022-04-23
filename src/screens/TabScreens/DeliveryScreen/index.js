@@ -204,6 +204,7 @@ function DeliveryScreen(props) {
                 <Icon
                   name="ios-chevron-down-outline"
                   size={25}
+                  style={{top: -2}}
                   color={colors.red}
                 />
               </TouchableOpacity>
@@ -249,28 +250,63 @@ function DeliveryScreen(props) {
           contentContainerStyle={styles.contentStyle}
         />
         <View style={styles.separator} />
-        <Text style={styles.textHeader}>Categories</Text>
+        <View style={styles.headerWraper}>
+          <Text style={styles.textHeader}>Categories</Text>
+          <Text style={styles.textHeaderLeft}>View All</Text>
+        </View>
         <CircleSlider data={SECTIONS} />
         <Text style={styles.textHeader}>Offers</Text>
         <OffersSlider data={OFFERS} />
         <Text style={styles.textHeader}>Eat what makes you happy</Text>
         <HorizontalSlider data={SECTIONS} />
-        <Text style={styles.textHeader}>Recommended for you</Text>
+        <View style={styles.headerWraper}>
+          <Text style={styles.textHeader}>Recommended for you</Text>
+          <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>Featured restaurants</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>Amazing biryani</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>Lunch bestsellers</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>Pizza for lunch</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>Value for money</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>Must try shawarma</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <HorizontalSlider data={SECTIONS} />
+
+        <View style={styles.headerWraper}>
         <Text style={styles.textHeader}>222 restaurants around you</Text>
+        <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
         <VerticalSlider data={SECTIONS1} />
+        
         <View style={{marginTop: 10}}></View>
       </ScrollView>
       <View

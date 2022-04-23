@@ -18,7 +18,7 @@ const ListItem = ({item}) => {
           uri: item.uri,
         }}
         style={styles1.itemPhoto}
-        resizeMode="contain"
+        resizeMode="stretch"
       />
       <Text style={styles1.itemText}>{item.text}</Text>
     </View>
@@ -71,11 +71,14 @@ const styles1 = StyleSheet.create({
   item: {
     marginRight: 10,
     width: wp(166),
-    minHeight: hp(120),
+    height: hp(100),
+    marginBottom: 10,
+    marginTop: 10,
+
   },
   itemPhoto: {
-    width: wp(166),
-    minHeight: hp(120),
+    width: '100%',
+    height:'100%',
     borderRadius: 10,
   },
   itemText: {

@@ -24,8 +24,9 @@ export const Splashstyles = StyleSheet.create({
   text: {
     marginTop: hp(10),
     fontSize: 22,
-    color: colors.secondaryColor,
+    // color: '#6dd47e',
+    color: colors.red,
     textAlign: 'center',
-    fontFamily: 'GoogleSans-BoldItalic',
+    fontFamily: 'GoogleSans-Bold',
   },
 });

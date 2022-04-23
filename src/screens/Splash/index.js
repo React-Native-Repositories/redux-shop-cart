@@ -10,9 +10,9 @@ export default function SplashScreen() {
         <LogoIconSvg height={30} width={30} style={{height: 30, width: 30}} />
         {/* <Image source={{uri:'https://pravarshaindustries.com/img/favicon.png'}} style={{width:100,height:100}}/> */}
       </View>
-      <View style={Splashstyles.textWrapper}>
+      {/* <View style={Splashstyles.textWrapper}>
         <Text style={Splashstyles.text}>SK Shoping Kart</Text>
-      </View>
+      </View> */}
     </View>
   );
 }
