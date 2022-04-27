@@ -25,7 +25,7 @@ import {colors} from '../../../common/colors';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {getDataFromExampleQuery} from '../../../services/Apis/example.service';
 import { Alert } from 'native-base';
-import config from '../../../services/config';
+import {config} from '../../../services/config';
 
 // https://unsplash.com/s/photos/dish
 
@@ -208,6 +208,7 @@ function DeliveryScreen(props) {
   /* -------------------------------------------------------------------------- */
   const screenWidth = Math.round(Dimensions.get('window').width);
   const refRBSheet = useRef();
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.headerContainer}>
@@ -216,19 +217,21 @@ function DeliveryScreen(props) {
             <Icon name="location-outline" size={25} color={colors.red} />
           </View>
           <View style={styles.address}>
+          <TouchableOpacity onPress={() => refRBSheet.current.open()}>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.addressText}>Home</Text>
-              <TouchableOpacity onPress={() => refRBSheet.current.open()}>
                 <Icon
                   name="ios-chevron-down-outline"
                   size={25}
                   style={{top: -2}}
                   color={colors.red}
                 />
-              </TouchableOpacity>
             </View>
+            </TouchableOpacity>
+
             <Text style={styles.addressDescription}>
-              Dno 12-7/1, Tarakarama Street, Tiruchano..
+              Dno 12-7/1, Tarakarama Street...
+              {/* , Tiruchano.. */}
             </Text>
           </View>
         </View>
@@ -281,15 +284,15 @@ function DeliveryScreen(props) {
           <Text style={styles.textHeader}>Offers</Text>
           <OffersSlider data={OFFERS} />
          
-          {/* <Text style={styles.textHeader}>Eat what makes you happy</Text>
+           <Text style={styles.textHeader}>Eat what makes you happy</Text>
           <HorizontalSlider data={SECTIONS} />
-          <View style={styles.headerWraper}>
+           {/*<View style={styles.headerWraper}>
             <Text style={styles.textHeader}>Recommended for you</Text>
             <Text style={styles.textHeaderLeft}>See All</Text>
           </View>
           <HorizontalSlider data={SECTIONS} />
 
-          <View style={styles.headerWraper}>
+         <View style={styles.headerWraper}>
             <Text style={styles.textHeader}>Featured restaurants</Text>
             <Text style={styles.textHeaderLeft}>See All</Text>
           </View>
@@ -330,7 +333,6 @@ function DeliveryScreen(props) {
             <Text style={styles.textHeaderLeft}>See All</Text>
           </View>
           <VerticalSlider data={[{horizontal: false,data:list}]} />
-
           <View style={{marginTop: 10}}></View>
         </ScrollView>
       )}

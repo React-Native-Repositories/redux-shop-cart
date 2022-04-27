@@ -1,6 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {colors} from '../../../common/colors';
-import {hp} from '../../../dimensions';
+import {hp, wp} from '../../../dimensions';
 
 const {width, height} = Dimensions.get('window');
 export const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    minHeight: hp(60),
+    minHeight: hp(50),
     marginTop: hp(10),
     // borderColor:colors.white,
     // borderBottomColor:colors.textGray,
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
   },
   addressDescription: {
     fontSize: 12,
-    width: 250,
+    width: wp(250),
     color: colors.black,
   },
   headerRight: {
