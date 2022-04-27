@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
 export const UIStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
         name="Login"
         component={LoginScreen}

@@ -23,6 +23,9 @@ import {styles} from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../../common/colors';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import {getDataFromExampleQuery} from '../../../services/Apis/example.service';
+import { Alert } from 'native-base';
+import config from '../../../services/config';
 
 // https://unsplash.com/s/photos/dish
 
@@ -31,7 +34,7 @@ function DeliveryScreen(props) {
   /*                               UseState Section                             */
   /* -------------------------------------------------------------------------- */
   const [isLoading, setIsLoading] = useState(false);
-  const [allCategoriesList, setAllCategoriesList] = useState([]);
+  const [list, setList] = useState([]);
   const [data] = useState([
     {
       image:
@@ -59,7 +62,6 @@ function DeliveryScreen(props) {
       desc: 'Sample Description below the image for representation purpose only',
     },
   ]);
-
   const [data1] = useState([
     {
       image:
@@ -121,6 +123,24 @@ function DeliveryScreen(props) {
       ],
     },
   ];
+  const OFFERS = [
+    {
+      // title: 'Made for you',
+      horizontal: true,
+      data: [
+        {
+          key: '1',
+          text: 'Item text 1',
+          uri: 'https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/zomato-banner-change_74B641A1E3AE1100D7015078982A3409.jpg',
+        },
+        {
+          key: '2',
+          text: 'Item text 2',
+          uri: 'https://1.bp.blogspot.com/-WNaYoUomcWk/YFttaeIyqgI/AAAAAAAAFyM/8QsgI01mWU0Zb3XFj-3cQerCZRBAysglQCLcBGAsYHQ/s800/Zomato%2Bsbi.png',
+        },
+      ],
+    },
+  ];
   const SECTIONS1 = [
     {
       // title: 'Made for you',
@@ -155,24 +175,6 @@ function DeliveryScreen(props) {
       ],
     },
   ];
-  const OFFERS = [
-    {
-      // title: 'Made for you',
-      horizontal: true,
-      data: [
-        {
-          key: '1',
-          text: 'Item text 1',
-          uri: 'https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/zomato-banner-change_74B641A1E3AE1100D7015078982A3409.jpg',
-        },
-        {
-          key: '2',
-          text: 'Item text 2',
-          uri: 'https://1.bp.blogspot.com/-WNaYoUomcWk/YFttaeIyqgI/AAAAAAAAFyM/8QsgI01mWU0Zb3XFj-3cQerCZRBAysglQCLcBGAsYHQ/s800/Zomato%2Bsbi.png',
-        },
-      ],
-    },
-  ];
   /* -------------------------------------------------------------------------- */
   /*                               UseEffect Section                            */
   /* -------------------------------------------------------------------------- */
@@ -183,13 +185,29 @@ function DeliveryScreen(props) {
   /* -------------------------------------------------------------------------- */
   /*                               API Section                                  */
   /* -------------------------------------------------------------------------- */
-  const getAllCategoriesList = async () => {};
+  const getAllCategoriesList = async () => {
+    try {
+      setIsLoading(true);
+      let resp = await getDataFromExampleQuery();
+      if (resp) {
+        setList(resp.map((item)=>({
+          ...item,
+          uri:config.API_URL+item.cover[0].url,
+          tex:'sk'
+        })))
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
   /* -------------------------------------------------------------------------- */
   /*                               Onchange section                             */
   /* -------------------------------------------------------------------------- */
   const screenWidth = Math.round(Dimensions.get('window').width);
   const refRBSheet = useRef();
-
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.headerContainer}>
@@ -220,95 +238,102 @@ function DeliveryScreen(props) {
           </View>
         </TouchableOpacity>
       </View>
-      <ScrollView style={styles.scroll}>
-        <FlatListSlider
-          data={data}
-          height={hp(200)}
-          timer={4000}
-          imageKey={'image'}
-          local={false}
-          width={screenWidth}
-          separator={0}
-          loop={true}
-          autoscroll={false}
-          // currentIndexCallback={index => console.log('Index', index)}
-          onPress={item => alert(JSON.stringify(item))}
-          indicator={true}
-          animation
-        />
-        <View style={styles.separator} />
-        <FlatListSlider
-          data={data1}
-          width={wp(255)}
-          timer={4000}
-          component={<Preview />}
-          separator={0}
-          onPress={item => alert(JSON.stringify(item))}
-          indicatorActiveWidth={10}
-          autoscroll={false}
-          indicator={false}
-          contentContainerStyle={styles.contentStyle}
-        />
-        <View style={styles.separator} />
-        <View style={styles.headerWraper}>
-          <Text style={styles.textHeader}>Categories</Text>
-          <Text style={styles.textHeaderLeft}>View All</Text>
+      {isLoading ? (
+        <View>
+          <Text>Please wait...</Text>
         </View>
-        <CircleSlider data={SECTIONS} />
-        <Text style={styles.textHeader}>Offers</Text>
-        <OffersSlider data={OFFERS} />
-        <Text style={styles.textHeader}>Eat what makes you happy</Text>
-        <HorizontalSlider data={SECTIONS} />
-        <View style={styles.headerWraper}>
-          <Text style={styles.textHeader}>Recommended for you</Text>
-          <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+      ) : (
+        <ScrollView style={styles.scroll}>
+          <FlatListSlider
+            data={data}
+            height={hp(200)}
+            timer={4000}
+            imageKey={'image'}
+            local={false}
+            width={screenWidth}
+            separator={0}
+            loop={true}
+            autoscroll={false}
+            // currentIndexCallback={index => console.log('Index', index)}
+            onPress={item => alert(JSON.stringify(item))}
+            indicator={true}
+            animation
+          />
+          <View style={styles.separator} />
+          <FlatListSlider
+            data={data1}
+            width={wp(255)}
+            timer={4000}
+            component={<Preview />}
+            separator={0}
+            onPress={item => alert(JSON.stringify(item))}
+            indicatorActiveWidth={10}
+            autoscroll={false}
+            indicator={false}
+            contentContainerStyle={styles.contentStyle}
+          />
+          <View style={styles.separator} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Categories</Text>
+            <Text style={styles.textHeaderLeft}>View All</Text>
+          </View>
+          <CircleSlider data={SECTIONS} />
+          <Text style={styles.textHeader}>Offers</Text>
+          <OffersSlider data={OFFERS} />
+         
+          {/* <Text style={styles.textHeader}>Eat what makes you happy</Text>
+          <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Recommended for you</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} />
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>Featured restaurants</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Featured restaurants</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} />
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>Amazing biryani</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Amazing biryani</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} />
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>Lunch bestsellers</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Lunch bestsellers</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} />
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>Pizza for lunch</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Pizza for lunch</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} />
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>Value for money</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Value for money</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} />
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>Must try shawarma</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <HorizontalSlider data={SECTIONS} />
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>Must try shawarma</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <HorizontalSlider data={SECTIONS} /> */}
 
-        <View style={styles.headerWraper}>
-        <Text style={styles.textHeader}>222 restaurants around you</Text>
-        <Text style={styles.textHeaderLeft}>See All</Text>
-        </View>
-        <VerticalSlider data={SECTIONS1} />
-        
-        <View style={{marginTop: 10}}></View>
-      </ScrollView>
+          <View style={styles.headerWraper}>
+            <Text style={styles.textHeader}>222 restaurants around you</Text>
+            <Text style={styles.textHeaderLeft}>See All</Text>
+          </View>
+          <VerticalSlider data={[{horizontal: false,data:list}]} />
+
+          <View style={{marginTop: 10}}></View>
+        </ScrollView>
+      )}
       <View
         style={{
           flex: 1,
