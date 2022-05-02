@@ -85,7 +85,6 @@ export const Delete = url => {
 };
 
 export const get = url => {
-  console.log(url,"--------------")
   try {
     const requestOptions = {
       method: 'GET',

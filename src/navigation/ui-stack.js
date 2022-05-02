@@ -10,6 +10,7 @@ import {colors} from '../common/colors';
 import {hp} from '../dimensions';
 import AboutUs from '../screens/DrawerScreens/AboutUs';
 import UIBottomTabNavigator from './ui-bottom-tab';
+import ProductDetail from '../screens/ProductDetail';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -33,6 +34,16 @@ export const UIStack = () => {
           headerBackTitleVisible: false,
         }}
       />
+      <Stack.Screen
+        name="Details"
+        component={ProductDetail}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+        }}
+      />
+
+
       {/* <Stack.Screen
         name="Main"
         component={DrawerStack}

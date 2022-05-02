@@ -25,7 +25,7 @@ import {colors} from '../../../common/colors';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {getDataFromExampleQuery} from '../../../services/Apis/example.service';
 import { Alert } from 'native-base';
-import {config} from '../../../services/config';
+import config from '../../../services/config';
 
 // https://unsplash.com/s/photos/dish
 
@@ -208,7 +208,7 @@ function DeliveryScreen(props) {
   /* -------------------------------------------------------------------------- */
   const screenWidth = Math.round(Dimensions.get('window').width);
   const refRBSheet = useRef();
-
+  console.log(list)
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.headerContainer}>

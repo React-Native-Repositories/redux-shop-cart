@@ -6,19 +6,26 @@ import {
   SectionList,
   FlatList,
   Image,
+  TouchableOpacity
 } from 'react-native';
 import React from 'react';
 import {hp, wp} from '../../dimensions';
 import {colors} from '../../common/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
-const ListItem = ({item}) => {
+const ListItem = (props) => {
+  const navigation = useNavigation();
+
   return (
-    <View>
+    <TouchableOpacity onPress={()=> navigation.navigate('Details', {
+      itemId: 86,
+      otherParam: 'anything you want here',
+    })}>
       <View style={styles1.item}>
         <Image
           source={{
-            uri: item.uri,
+            uri: props.item.uri,
           }}
           style={styles1.itemPhoto}
           resizeMode="cover"
@@ -28,10 +35,10 @@ const ListItem = ({item}) => {
       <View style={styles1.mainContainer}>
         <View style={styles1.textContainer}>
           <View style={styles1.itemTextContainer1}>
-            <Text style={styles1.itemText1}>{item.name}</Text>
+            <Text style={styles1.itemText1}>{props.item.name}</Text>
             <View style={styles1.itemText2}>
               <Text style={styles1.text1}>
-                {parseFloat(item.note ? item.note : 0).toFixed(1)}
+                {parseFloat(props.item.note ? props.item.note : 0).toFixed(1)}
               </Text>
               <Icon
                 name="star-sharp"
@@ -43,13 +50,13 @@ const ListItem = ({item}) => {
           </View>
 
           <View style={styles1.itemTextContainer2}>
-            <Text style={styles1.itemTextCategory}>{item?.category?.name}</Text>
+            <Text style={styles1.itemTextCategory}>{props.item?.category?.name}</Text>
             <Text style={styles1.price}>₹ 250 for one </Text>
           </View>
         </View>
       </View>
 
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -67,8 +74,9 @@ export default function VerticalSlider(props) {
               <FlatList
                 horizontal
                 data={section.data}
-                renderItem={({item}) => <ListItem item={item} />}
+                renderItem={({item}) => <ListItem {...props} item={item} />}
                 showsHorizontalScrollIndicator={false}
+                {...props}
               />
             ) : null}
           </>
@@ -77,7 +85,9 @@ export default function VerticalSlider(props) {
           if (section.horizontal) {
             return null;
           }
-          return <ListItem item={item} />;
+          return <ListItem item={item}                
+           {...props}
+          />;
         }}
       />
     </View>
