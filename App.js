@@ -3,8 +3,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {NativeBaseProvider} from 'native-base';
 import React from 'react';
 import {LogBox} from 'react-native';
+import {Provider} from 'react-redux';
 import UIBottomTabNavigator from './src/navigation/ui-bottom-tab';
 import {UIStack} from './src/navigation/ui-stack';
+import store from './src/redux/store';
 import SplashScreen from './src/screens/Splash';
 
 function App(props) {
@@ -38,14 +40,14 @@ function App(props) {
     "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
   ]);
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        {isVisible ? <SplashScreen /> :
-       <UIStack />
-        } 
-        {/* <UIBottomTabNavigator /> */}
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          {isVisible ? <SplashScreen /> : <UIStack />}
+          {/* <UIBottomTabNavigator /> */}
+        </NavigationContainer>
+      </NativeBaseProvider>
+     </Provider>
   );
 }
 

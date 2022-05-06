@@ -23,9 +23,9 @@ import {styles} from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../../common/colors';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {getDataFromExampleQuery} from '../../../services/Apis/example.service';
-import { Alert } from 'native-base';
-import config from '../../../services/config';
+import {getProductList} from '../../../redux/actionCreators/products/index';
+import {getCategoryListList} from '../../../redux/actionCreators/categories/index'
+import {connect} from 'react-redux';
 
 // https://unsplash.com/s/photos/dish
 
@@ -33,59 +33,57 @@ function DeliveryScreen(props) {
   /* -------------------------------------------------------------------------- */
   /*                               UseState Section                             */
   /* -------------------------------------------------------------------------- */
-  const [isLoading, setIsLoading] = useState(false);
-  const [list, setList] = useState([]);
   const [data] = useState([
     {
       image:
-        'https://images.unsplash.com/photo-1631515242808-497c3fbd3972?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2132&q=80',
+        'https://www.shopickr.com/wp-content/uploads/2019/06/myntra-end-of-reason-sale-fashion-summers-june-2019-coupon.jpg',
       desc: 'Silent Waters in the mountains in midst of Himilayas',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2088&q=80',
+        'https://i.ytimg.com/vi/PPZlw6OF8oI/maxresdefault.jpg',
       desc: 'Red fort in India New Delhi is a magnificient masterpeiece of humans',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1633945274417-ab205ae69d10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        'https://www.shopickr.com/wp-content/uploads/2019/02/myntra-accessories-sale.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        'https://s3b.cashify.in/gpro/uploads/2022/02/24194954/Myntra-Upcoming-Sales-2022.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1512152272829-e3139592d56f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        'https://static.toiimg.com/thumb/msid-81240948,width-1200,height-900,resizemode-4/.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
   ]);
   const [data1] = useState([
     {
       image:
-        'https://images.unsplash.com/photo-1610057099443-64836ddec508?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+        'https://i.pinimg.com/originals/6f/66/29/6f66290a7db1fb8b61ff90529435d5be.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        'https://www.couponsloka.com/wp-content/uploads/2019/11/myntra_v3.jpg',
       desc: 'Silent Waters in the mountains in midst of Himilayas',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        'https://i.pinimg.com/originals/0b/46/ce/0b46ceb1581581d7ca5069c7120d269b.jpg',
       desc: 'Red fort in India New Delhi is a magnificient masterpeiece of humans',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1622768505337-ed0f06f22b54?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80',
+        'https://pbs.twimg.com/media/ENqhlaLU4AAWDgy.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
     {
       image:
-        'https://images.unsplash.com/photo-1512152272829-e3139592d56f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        'https://in.apparelresources.com/wp-content/uploads/sites/3/2020/06/Myntra%E2%80%99s-EORS-2020.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
   ]);
@@ -97,28 +95,29 @@ function DeliveryScreen(props) {
         {
           key: '1',
           text: 'Item text 1',
-          uri: 'https://images.unsplash.com/photo-1610057099443-64836ddec508?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+          uri: 'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2020/8/22/9bfef665-73ea-4939-9c19-7656f93fe11e1598107602597-prebuzz-header.gif',
         },
+ 
         {
           key: '2',
           text: 'Item text 2',
-          uri: 'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+          uri: 'https://1.bp.blogspot.com/-s57MtabKU0g/YEGtmoe8MCI/AAAAAAAAEwo/koiQd1CZ9NslEbpW-bd19eK3BnZ1y6bqACLcBGAsYHQ/s16000/MainBanner_71865.jpg',
         },
 
         {
           key: '3',
           text: 'Item text 3',
-          uri: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+          uri: 'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2020/9/7/97763f84-6e49-41bb-80e0-9d8034006a4a1599481995876-Header-fin.jpg',
         },
         {
           key: '4',
           text: 'Item text 4',
-          uri: 'https://images.unsplash.com/photo-1622768505337-ed0f06f22b54?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80',
+          uri: 'https://pbs.twimg.com/media/D0ZpN1YUYAAKHN0.jpg',
         },
         {
           key: '5',
           text: 'Item text 5',
-          uri: 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+          uri: 'https://pbs.twimg.com/media/EFotqZAU0AElhh9.jpg',
         },
       ],
     },
@@ -131,12 +130,12 @@ function DeliveryScreen(props) {
         {
           key: '1',
           text: 'Item text 1',
-          uri: 'https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/zomato-banner-change_74B641A1E3AE1100D7015078982A3409.jpg',
+          uri: 'https://hungamadeal.co.in/wp-content/uploads/2019/09/other-5.jpg',
         },
         {
           key: '2',
           text: 'Item text 2',
-          uri: 'https://1.bp.blogspot.com/-WNaYoUomcWk/YFttaeIyqgI/AAAAAAAAFyM/8QsgI01mWU0Zb3XFj-3cQerCZRBAysglQCLcBGAsYHQ/s800/Zomato%2Bsbi.png',
+          uri: 'https://i.pinimg.com/originals/fd/1e/cc/fd1ecc7f6d8b956809ee7e5c055cdf9b.jpg',
         },
       ],
     },
@@ -175,40 +174,28 @@ function DeliveryScreen(props) {
       ],
     },
   ];
+
   /* -------------------------------------------------------------------------- */
   /*                               UseEffect Section                            */
   /* -------------------------------------------------------------------------- */
   useEffect(() => {
-    getAllCategoriesList();
+    props.getCategoryListList();
+    props.getProductList();
+
   }, []);
 
+  // console.log(props.allProducts, '-0-0-0-0-0-0');
   /* -------------------------------------------------------------------------- */
   /*                               API Section                                  */
   /* -------------------------------------------------------------------------- */
-  const getAllCategoriesList = async () => {
-    try {
-      setIsLoading(true);
-      let resp = await getDataFromExampleQuery();
-      if (resp) {
-        setList(resp.map((item)=>({
-          ...item,
-          uri:config.API_URL+item.cover[0].url,
-          tex:'sk'
-        })))
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+
+
   /* -------------------------------------------------------------------------- */
   /*                               Onchange section                             */
   /* -------------------------------------------------------------------------- */
   const screenWidth = Math.round(Dimensions.get('window').width);
   const refRBSheet = useRef();
-  console.log(list)
+  console.log(props.categories)
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.headerContainer}>
@@ -217,18 +204,17 @@ function DeliveryScreen(props) {
             <Icon name="location-outline" size={25} color={colors.red} />
           </View>
           <View style={styles.address}>
-          <TouchableOpacity onPress={() => refRBSheet.current.open()}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.addressText}>Home</Text>
+            <TouchableOpacity onPress={() => refRBSheet.current.open()}>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.addressText}>Home</Text>
                 <Icon
                   name="ios-chevron-down-outline"
                   size={25}
                   style={{top: -2}}
                   color={colors.red}
                 />
-            </View>
+              </View>
             </TouchableOpacity>
-
             <Text style={styles.addressDescription}>
               Dno 12-7/1, Tarakarama Street...
               {/* , Tiruchano.. */}
@@ -241,101 +227,89 @@ function DeliveryScreen(props) {
           </View>
         </TouchableOpacity>
       </View>
-      {isLoading ? (
-        <View>
-          <Text>Please wait...</Text>
+
+      <ScrollView style={styles.scroll}>
+        <FlatListSlider
+          data={data}
+          height={hp(200)}
+          timer={4000}
+          imageKey={'image'}
+          local={false}
+          width={screenWidth}
+          separator={0}
+          loop={true}
+          autoscroll={false}
+          // currentIndexCallback={index => console.log('Index', index)}
+          onPress={item => alert(JSON.stringify(item))}
+          indicator={true}
+          animation
+        />
+        <View style={styles.separator} />
+        <FlatListSlider
+          data={data1}
+          width={wp(255)}
+          timer={4000}
+          component={<Preview />}
+          separator={0}
+          onPress={item => alert(JSON.stringify(item))}
+          indicatorActiveWidth={10}
+          autoscroll={false}
+          indicator={false}
+          contentContainerStyle={styles.contentStyle}
+        />
+        <View style={styles.separator} />
+        <View style={styles.headerWraper}>
+          <Text style={styles.textHeader}>Categories</Text>
+          <Text style={styles.textHeaderLeft}>View All</Text>
         </View>
-      ) : (
-        <ScrollView style={styles.scroll}>
-          <FlatListSlider
-            data={data}
-            height={hp(200)}
-            timer={4000}
-            imageKey={'image'}
-            local={false}
-            width={screenWidth}
-            separator={0}
-            loop={true}
-            autoscroll={false}
-            // currentIndexCallback={index => console.log('Index', index)}
-            onPress={item => alert(JSON.stringify(item))}
-            indicator={true}
-            animation
-          />
-          <View style={styles.separator} />
-          <FlatListSlider
-            data={data1}
-            width={wp(255)}
-            timer={4000}
-            component={<Preview />}
-            separator={0}
-            onPress={item => alert(JSON.stringify(item))}
-            indicatorActiveWidth={10}
-            autoscroll={false}
-            indicator={false}
-            contentContainerStyle={styles.contentStyle}
-          />
-          <View style={styles.separator} />
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Categories</Text>
-            <Text style={styles.textHeaderLeft}>View All</Text>
+        {props.categories.categoryLoading ? (
+          <View>
+            <Text>Please wait...</Text>
           </View>
-          <CircleSlider data={SECTIONS} />
-          <Text style={styles.textHeader}>Offers</Text>
-          <OffersSlider data={OFFERS} />
-         
-           <Text style={styles.textHeader}>Eat what makes you happy</Text>
-          <HorizontalSlider data={SECTIONS} />
-           {/*<View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Recommended for you</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <HorizontalSlider data={SECTIONS} />
+        ) : (
+          <>
+        <CircleSlider data={[
+                {
+                  horizontal: true,
+                  data:
+                    props.categories.categoryList.length > 0
+                      ? props.categories.categoryList
+                      : [],
+                },
+              ]} />
+        <Text style={styles.textHeader}>Offers</Text>
+        </>)}
+        <OffersSlider data={OFFERS} />
 
-         <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Featured restaurants</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <HorizontalSlider data={SECTIONS} />
+        <Text style={styles.textHeader}>Summer Offers</Text>
+        <HorizontalSlider data={SECTIONS} />
 
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Amazing biryani</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
+        <View style={styles.headerWraper}>
+          <Text style={styles.textHeader}>All Products ({props.productsList.productList.length})</Text>
+          <Text style={styles.textHeaderLeft}>See All</Text>
+        </View>
+        {props.productsList.productsLoading ? (
+          <View>
+            <Text>Please wait...</Text>
           </View>
-          <HorizontalSlider data={SECTIONS} />
+        ) : (
+          <>
+            <VerticalSlider
+              data={[
+                {
+                  horizontal: false,
+                  data:
+                    props.productsList.productList.length > 0
+                      ? props.productsList.productList
+                      : [],
+                },
+              ]}
+            />
+            <View style={{marginTop: 10}}></View>
+          </>
+        )}
+      </ScrollView>
 
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Lunch bestsellers</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <HorizontalSlider data={SECTIONS} />
-
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Pizza for lunch</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <HorizontalSlider data={SECTIONS} />
-
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Value for money</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <HorizontalSlider data={SECTIONS} />
-
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>Must try shawarma</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <HorizontalSlider data={SECTIONS} /> */}
-
-          <View style={styles.headerWraper}>
-            <Text style={styles.textHeader}>222 restaurants around you</Text>
-            <Text style={styles.textHeaderLeft}>See All</Text>
-          </View>
-          <VerticalSlider data={[{horizontal: false,data:list}]} />
-          <View style={{marginTop: 10}}></View>
-        </ScrollView>
-      )}
       <View
         style={{
           flex: 1,
@@ -415,4 +389,18 @@ function DeliveryScreen(props) {
   );
 }
 
-export default DeliveryScreen;
+const mapStateToProps = state => {
+  return {
+    productsList: state.products,
+    categories:state.categories
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getProductList: () => dispatch(getProductList()),
+    getCategoryListList:() => dispatch(getCategoryListList())
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeliveryScreen);

@@ -22,7 +22,7 @@ export default function LoginScreen(props) {
       <View style={Loginstyles.container1}></View>
       <View style={Loginstyles.container2}>
         <Text style={Loginstyles.headerText}>
-          India's #1 Food Delevery and Dining App
+          India's #1 Online Delevery and Shopping App
         </Text>
         <View style={Loginstyles.seperateWrapper}>
           <View style={Loginstyles.line} />

@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '90%',
     marginTop: hp(20),
-    marginBottom: hp(80),
+    marginBottom: hp(20),
   },
 
   header: {

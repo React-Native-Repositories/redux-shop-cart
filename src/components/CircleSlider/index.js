@@ -16,12 +16,12 @@ const ListItem = ({item}) => {
     <View style={styles1.item}>
       <Image
         source={{
-          uri: item.uri,
+          uri: 'https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
         }}
         style={styles1.itemPhoto}
-        resizeMode="cover"
+        resizeMode="center"
       />
-      <Text style={styles1.itemText}>{'Biryani'}</Text>
+      <Text style={styles1.itemText}>{item}</Text>
     </View>
   );
 };
@@ -74,12 +74,13 @@ const styles1 = StyleSheet.create({
     alignItems: 'center',
     marginTop: hp(10),
     marginBottom: hp(10),
-    resizeMode: 'cover',
   },
   itemPhoto: {
     width: 120,
     height: 120,
     borderRadius: 60,
+    borderWidth:1,
+    borderColor:colors.textGray
   },
   itemText: {
     color: colors.black,

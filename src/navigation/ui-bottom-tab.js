@@ -36,12 +36,12 @@ function UIBottomTabNavigator(props) {
           tabBarIcon: ({focused}) => {
             return focused ? (
               <View style={styles.labelFocusedContainer}>
-                <Icon name="restaurant" size={20} color={'#cb202d'} />
+                <Icon name="home" size={20} color={'#cb202d'} />
                 <Text style={styles.labelFocusedStyle}>Delivery</Text>
               </View>
             ) : (
               <View style={styles.labelContainer}>
-                <Icon name="restaurant" size={20} color={'black'} />
+                <Icon name="home" size={20} color={'black'} />
                 <Text style={styles.labelStyle}>Delivery</Text>
               </View>
             );

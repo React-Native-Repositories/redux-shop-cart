@@ -60,7 +60,7 @@ export default function ProductDetail(props) {
             <Icon
               name="search-outline"
               color={colors.black}
-              size={15}
+              size={20}
               style={styles.icon1}
             />
           </View>
@@ -69,7 +69,7 @@ export default function ProductDetail(props) {
               style={styles.icon2}
               name="ellipsis-horizontal-outline"
               color={colors.black}
-              size={20}
+              size={25}
             />
           </View>
         </View>
@@ -103,8 +103,8 @@ export default function ProductDetail(props) {
                 />
               </View>
               <View style={styles.header2View1}>
-                  <Text style={styles.header2View1Text}>231</Text>
-                  <Text style={styles.header2View1Text}>Reviews</Text>
+                <Text style={styles.header2View1Text}>231</Text>
+                <Text style={styles.header2View1Text}>Reviews</Text>
               </View>
             </View>
           </View>

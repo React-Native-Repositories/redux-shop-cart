@@ -6,7 +6,7 @@ import {
   SectionList,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {hp, wp} from '../../dimensions';
@@ -14,31 +14,39 @@ import {colors} from '../../common/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-const ListItem = (props) => {
+const ListItem = props => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={()=> navigation.navigate('Details', {
-      itemId: 86,
-      otherParam: 'anything you want here',
-    })}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('Details', {
+          itemId: 86,
+          otherParam: 'anything you want here',
+        })
+      }>
       <View style={styles1.item}>
         <Image
           source={{
-            uri: props.item.uri,
+            uri: props.item.image,
           }}
           style={styles1.itemPhoto}
-          resizeMode="cover"
+          resizeMode="center"
         />
-     
       </View>
       <View style={styles1.mainContainer}>
         <View style={styles1.textContainer}>
           <View style={styles1.itemTextContainer1}>
-            <Text style={styles1.itemText1}>{props.item.name}</Text>
+            <Text style={styles1.itemText1}>
+              {props.item?.title.split(' ')[0]}{' '}
+              {props.item?.title.split(' ')[1]}{' '}
+              {props.item?.title.split(' ')[2]}
+            </Text>
             <View style={styles1.itemText2}>
               <Text style={styles1.text1}>
-                {parseFloat(props.item.note ? props.item.note : 0).toFixed(1)}
+                {parseFloat(
+                  props.item?.rating?.rate ? props.item?.rating?.rate : 0,
+                ).toFixed(1)}
               </Text>
               <Icon
                 name="star-sharp"
@@ -50,12 +58,13 @@ const ListItem = (props) => {
           </View>
 
           <View style={styles1.itemTextContainer2}>
-            <Text style={styles1.itemTextCategory}>{props.item?.category?.name}</Text>
-            <Text style={styles1.price}>₹ 250 for one </Text>
+            <Text style={styles1.itemTextCategory}>
+              {props.item?.category?.name}
+            </Text>
+            <Text style={styles1.price}>₹ {props.item?.price} for one </Text>
           </View>
         </View>
       </View>
-
     </TouchableOpacity>
   );
 };
@@ -85,9 +94,7 @@ export default function VerticalSlider(props) {
           if (section.horizontal) {
             return null;
           }
-          return <ListItem item={item}                
-           {...props}
-          />;
+          return <ListItem item={item} {...props} />;
         }}
       />
     </View>
@@ -113,12 +120,14 @@ const styles1 = StyleSheet.create({
     height: hp(170),
     marginTop: hp(10),
     resizeMode: 'cover',
+    borderWidth: 1,
+    borderColor: colors.textGray,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   itemPhoto: {
     width: '100%',
     height: '100%',
-    borderTopLeftRadius:10,
-    borderTopRightRadius:10,
     // borderRadius: 10,
   },
   mainContainer: {
@@ -130,8 +139,8 @@ const styles1 = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.textGray,
     alignItems: 'center',
-    borderBottomLeftRadius:10,
-    borderBottomRightRadius:10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   textContainer: {
     width: '90%',
@@ -144,6 +153,7 @@ const styles1 = StyleSheet.create({
   },
 
   itemText1: {
+    width: '80%',
     color: colors.black,
     fontWeight: '500',
     fontSize: 16,
@@ -165,6 +175,7 @@ const styles1 = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     textAlign: 'center',
+    alignItems: 'center',
   },
   text1: {
     marginLeft: 3,
@@ -173,7 +184,7 @@ const styles1 = StyleSheet.create({
   icon: {
     marginRight: 3,
     marginLeft: 2,
-    marginTop: 4,
+    // marginTop: 4,
   },
   price: {
     color: colors.black,
