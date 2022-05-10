@@ -24,7 +24,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../../common/colors';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {getProductList} from '../../../redux/actionCreators/products/index';
-import {getCategoryListList} from '../../../redux/actionCreators/categories/index'
+import {getCategoryListList} from '../../../redux/actionCreators/categories/index';
 import {connect} from 'react-redux';
 
 // https://unsplash.com/s/photos/dish
@@ -40,8 +40,7 @@ function DeliveryScreen(props) {
       desc: 'Silent Waters in the mountains in midst of Himilayas',
     },
     {
-      image:
-        'https://i.ytimg.com/vi/PPZlw6OF8oI/maxresdefault.jpg',
+      image: 'https://i.ytimg.com/vi/PPZlw6OF8oI/maxresdefault.jpg',
       desc: 'Red fort in India New Delhi is a magnificient masterpeiece of humans',
     },
     {
@@ -77,8 +76,7 @@ function DeliveryScreen(props) {
       desc: 'Red fort in India New Delhi is a magnificient masterpeiece of humans',
     },
     {
-      image:
-        'https://pbs.twimg.com/media/ENqhlaLU4AAWDgy.jpg',
+      image: 'https://pbs.twimg.com/media/ENqhlaLU4AAWDgy.jpg',
       desc: 'Sample Description below the image for representation purpose only',
     },
     {
@@ -97,7 +95,7 @@ function DeliveryScreen(props) {
           text: 'Item text 1',
           uri: 'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2020/8/22/9bfef665-73ea-4939-9c19-7656f93fe11e1598107602597-prebuzz-header.gif',
         },
- 
+
         {
           key: '2',
           text: 'Item text 2',
@@ -181,14 +179,12 @@ function DeliveryScreen(props) {
   useEffect(() => {
     props.getCategoryListList();
     props.getProductList();
-
   }, []);
 
   // console.log(props.allProducts, '-0-0-0-0-0-0');
   /* -------------------------------------------------------------------------- */
   /*                               API Section                                  */
   /* -------------------------------------------------------------------------- */
-
 
   /* -------------------------------------------------------------------------- */
   /*                               Onchange section                             */
@@ -263,11 +259,14 @@ function DeliveryScreen(props) {
         </View>
         {props.categories.categoryLoading ? (
           <View>
-          <Text style={{textAlign:'center',marginTop:2}}>Please wait...</Text>
+            <Text style={{textAlign: 'center', marginTop: 2}}>
+              Please wait...
+            </Text>
           </View>
         ) : (
           <>
-        <CircleSlider data={[
+            <CircleSlider
+              data={[
                 {
                   horizontal: true,
                   data:
@@ -275,37 +274,32 @@ function DeliveryScreen(props) {
                       ? props.categories.categoryList
                       : [],
                 },
-              ]} />
-        <Text style={styles.textHeader}>Offers</Text>
-        </>)}
+              ]}
+            />
+            <Text style={styles.textHeader}>Offers</Text>
+          </>
+        )}
         <OffersSlider data={OFFERS} />
 
         <Text style={styles.textHeader}>Summer Offers</Text>
         <HorizontalSlider data={SECTIONS} />
 
         <View style={styles.headerWraper}>
-          <Text style={styles.textHeader}>All Products ({props.productsList.productList.length})</Text>
+          <Text style={styles.textHeader}>
+            All Products ({props.productsList.productList.length})
+          </Text>
           <Text style={styles.textHeaderLeft}>See All</Text>
         </View>
         {props.productsList.productsLoading ? (
           <View>
-          <Text style={{textAlign:'center',marginTop:2}}>Please wait...</Text>
+            <Text style={{textAlign: 'center', marginTop: 2}}>
+              Please wait...
+            </Text>
           </View>
         ) : (
-          <>
-            <VerticalSlider
-              data={[
-                {
-                  horizontal: false,
-                  data:
-                    props.productsList.productList.length > 0
-                      ? props.productsList.productList
-                      : [],
-                },
-              ]}
-            />
-            <View style={{marginTop: 10}}></View>
-          </>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <VerticalSlider data={props.productsList.productList} />
+          </View>
         )}
       </ScrollView>
 
@@ -391,14 +385,14 @@ function DeliveryScreen(props) {
 const mapStateToProps = state => {
   return {
     productsList: state.products,
-    categories:state.categories
+    categories: state.categories,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     getProductList: () => dispatch(getProductList()),
-    getCategoryListList:() => dispatch(getCategoryListList())
+    getCategoryListList: () => dispatch(getCategoryListList()),
   };
 }
 

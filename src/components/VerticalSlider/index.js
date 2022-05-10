@@ -7,62 +7,53 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 import {hp, wp} from '../../dimensions';
 import {colors} from '../../common/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+const {width, height} = Dimensions.get('window');
 
-const ListItem = props => {
-  const navigation = useNavigation();
-
+const Item = ({item, navigation}) => {
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('Details', {
-          itemId: props.item?.id,
+          itemId: item?.id,
           // otherParam: 'anything you want here',
         })
       }>
-      <View style={styles1.item}>
+      <View style={styles.items}>
         <Image
           source={{
-            uri: props.item.image,
+            uri: item?.image,
           }}
-          style={styles1.itemPhoto}
+          style={styles.itemPhoto}
           resizeMode="center"
           alt="test"
         />
-      </View>
-      <View style={styles1.mainContainer}>
-        <View style={styles1.textContainer}>
-          <View style={styles1.itemTextContainer1}>
-            <Text style={styles1.itemText1}>
-              {props.item?.title.split(' ')[0]}{' '}
-              {props.item?.title.split(' ')[1]}{' '}
-              {props.item?.title.split(' ')[2]}
-            </Text>
-            <View style={styles1.itemText2}>
-              <Text style={styles1.text1}>
+        <View style={styles.imageInfo}>
+          <Text style={styles.imageText}>
+            {item?.title.split(' ')[0]} {item?.title.split(' ')[1]}{' '}
+            {item?.title.split(' ')[2]}
+          </Text>
+          <View style={styles.more}>
+            <Text style={styles.price}>₹ {item?.price}</Text>
+            <View style={styles.rating}>
+              <Text style={styles.text1}>
                 {parseFloat(
-                  props.item?.rating?.rate ? props.item?.rating?.rate : 0,
+                  item?.rating?.rate ? item?.rating?.rate : 0,
                 ).toFixed(1)}
               </Text>
               <Icon
                 name="star-sharp"
                 size={12}
                 color={colors.white}
-                style={styles1.icon}
+                style={styles.icon}
               />
             </View>
-          </View>
-
-          <View style={styles1.itemTextContainer2}>
-            <Text style={styles1.itemTextCategory}>
-              {props.item?.category?.name}
-            </Text>
-            <Text style={styles1.price}>₹ {props.item?.price}</Text>
           </View>
         </View>
       </View>
@@ -71,124 +62,91 @@ const ListItem = props => {
 };
 
 export default function VerticalSlider(props) {
+  const navigation = useNavigation();
   return (
-    <View>
-      <SectionList
-        // contentContainerStyle={{paddingHorizontal: 10}}
-        stickySectionHeadersEnabled={false}
-        sections={props.data}
-        renderSectionHeader={({section}) => (
-          <>
-            {/* <Text style={styles.sectionHeader}>{section.title}</Text> */}
-            {section.horizontal ? (
-              <FlatList
-                horizontal
-                data={section.data}
-                renderItem={({item}) => <ListItem {...props} item={item} />}
-                showsHorizontalScrollIndicator={false}
-                {...props}
-              />
-            ) : null}
-          </>
-        )}
-        renderItem={({item, section}) => {
-          if (section.horizontal) {
-            return null;
-          }
-          return <ListItem item={item} {...props} />;
-        }}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>{props.route?.params?.item}</Text>
+      <View style={styles.app}>
+        <FlatList
+          data={props.data}
+          numColumns={2}
+          renderItem={({item}) => <Item item={item} navigation={navigation} />}
+          keyExtractor={item => item.alt}
+        />
+      </View>
     </View>
   );
 }
 
-const styles1 = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
   },
-  sectionHeader: {
-    fontWeight: '800',
-    fontSize: 18,
-    color: '#f4f4f4',
-    marginTop: 20,
-    marginBottom: 5,
+  app: {
+    flex: 2,
+    backgroundColor: '#F7F9F9',
+    width: width,
   },
   item: {
-    marginRight: 10,
-    alignItems: 'center',
-    width: '100%',
-    height: hp(170),
-    marginTop: hp(10),
-    resizeMode: 'cover',
-    borderWidth: 1,
-    borderColor: colors.textGray,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    flex: 1,
+    // margin: '2%',
+    maxWidth: '100%',
+    borderWidth: 0.5,
+    borderColor: '#fff',
+  },
+  items: {
+    width: width / 2,
+    height: 280,
+    backgroundColor: 'white',
+    marginRight: 3,
+    marginBottom: 3,
   },
   itemPhoto: {
     width: '100%',
     height: '100%',
-    // borderRadius: 10,
-  },
-  mainContainer: {
-    // position:'absolute',
-    // bottom:0,
-    width: '100%',
-    backgroundColor: colors.white,
-    minHeight: hp(40),
-    borderWidth: 1,
-    borderColor: colors.textGray,
-    alignItems: 'center',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-  },
-  textContainer: {
-    width: '90%',
-  },
-  itemTextContainer1: {
-    marginTop: 5,
-    marginBottom: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 
-  itemText1: {
-    width: '80%',
+  imageInfo: {
+    position: 'absolute',
+    backgroundColor: colors.white,
     color: colors.black,
-    fontWeight: '500',
-    fontSize: 16,
+    bottom: 0,
+    // minHeight:50,
+    width: '100%',
   },
-  itemTextCategory: {
-    color: colors.black,
-    fontSize: 12,
+  imageText: {
+    backgroundColor: colors.white,
+    fontSize: 14,
+    // textAlign: 'center',
+    marginLeft: '5%',
+    marginTop: hp(5),
+    // marginBottom: hp(5),
   },
-  itemTextContainer2: {
-    marginBottom: 5,
+  more: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  itemText2: {
-    minWidth: 10,
-    borderRadius: 5,
-    padding: 1,
-    backgroundColor: 'green',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    textAlign: 'center',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: '8%',
   },
-  text1: {
-    marginLeft: 3,
-    color: colors.white,
+  rating: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor:colors.green,
+    padding:3,
+    borderRadius:3,
   },
   icon: {
-    marginRight: 3,
-    marginLeft: 2,
-    // marginTop: 4,
+    marginLeft: '2%',
+    // marginRight: '2%',
   },
-  price: {
+  text1:{
+    color: colors.white,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '500',
+    textAlign: 'left',
+    margin: '2%',
     color: colors.black,
-    fontSize: 12,
   },
 });
