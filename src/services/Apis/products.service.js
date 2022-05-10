@@ -13,7 +13,7 @@ export const getSpecificCategoryProduct = category =>
 
 export const getAllProducts = () => get(`${config.API_URL}/products`);
 
-export const getSpecificProducts = id =>
+export const getSpecificProduct = id =>
   get(`${config.API_URL}/products/${id}`);
 
 export const createProduct = payload =>

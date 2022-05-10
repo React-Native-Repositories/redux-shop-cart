@@ -195,7 +195,6 @@ function DeliveryScreen(props) {
   /* -------------------------------------------------------------------------- */
   const screenWidth = Math.round(Dimensions.get('window').width);
   const refRBSheet = useRef();
-  console.log(props.categories)
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.headerContainer}>
@@ -264,7 +263,7 @@ function DeliveryScreen(props) {
         </View>
         {props.categories.categoryLoading ? (
           <View>
-            <Text>Please wait...</Text>
+          <Text style={{textAlign:'center',marginTop:2}}>Please wait...</Text>
           </View>
         ) : (
           <>
@@ -290,7 +289,7 @@ function DeliveryScreen(props) {
         </View>
         {props.productsList.productsLoading ? (
           <View>
-            <Text>Please wait...</Text>
+          <Text style={{textAlign:'center',marginTop:2}}>Please wait...</Text>
           </View>
         ) : (
           <>

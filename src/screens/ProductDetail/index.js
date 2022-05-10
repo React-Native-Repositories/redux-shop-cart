@@ -1,60 +1,71 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {FlatList, Image, ScrollView, TouchableOpacity} from 'native-base';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Products} from '../../common/products';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../common/colors';
+import {getSpecificProduct} from '../../services/Apis/products.service';
 
 <ion-icon name="add-circle-outline"></ion-icon>;
-const ListItem = props => {
-  const navigation = useNavigation();
-  return (
-    <View style={styles.main}>
-      <View style={styles.mainView}>
-        <Image
-          source={{
-            uri: props.item.uri,
-          }}
-          style={styles.image}
-          resizeMode="cover"
-        />
-      </View>
-      <View style={styles.subMain}>
-        <View style={styles.subText}>
-          <Text style={styles.itemText}>{props?.item?.text}</Text>
-          <View style={styles.iconView}>
-            <Icon name="add-circle" color={colors.green} size={25} />
-            <Text style={styles.iconText}>1</Text>
-            <Icon name="remove-circle" color={colors.red} size={25} />
-          </View>
-        </View>
-        <View style={styles.subText}>
-          <View style={styles.itemText2}>
-            <Text style={styles.text1}>
-              {parseFloat(props.item.note ? props.item.note : 0).toFixed(1)}
-            </Text>
-            <Icon
-              name="star-sharp"
-              size={12}
-              color={colors.white}
-              style={styles.icon}
-            />
-          </View>
-          <Text style={styles.itemPrice}>₹ {props?.item?.price}</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
+
 export default function ProductDetail(props) {
+  const navigation = useNavigation();
+  /* -------------------------------------------------------------------------- */
+  /*                               UseState Section                             */
+  /* -------------------------------------------------------------------------- */
+
+  const [productInfo, setProductInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  /* -------------------------------------------------------------------------- */
+  /*                               UseEffect Section                            */
+  /* -------------------------------------------------------------------------- */
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  /* -------------------------------------------------------------------------- */
+  /*                               API Section                                  */
+  /* -------------------------------------------------------------------------- */
+
+  const getData = async () => {
+    try {
+      setIsLoading(true);
+      // let resp = await getSpecificProduct(2);
+         let resp = await getSpecificProduct(props.route?.params?.itemId);
+      if (resp) {
+        setIsLoading(false);
+        setProductInfo(resp);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  /* -------------------------------------------------------------------------- */
+  /*                               Onchange section                             */
+  /* -------------------------------------------------------------------------- */
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Icon name="arrow-back-outline" color={colors.black} size={20} />
-        </View>
+      {/* <View style={styles.header}>
+        <TouchableOpacity
+          // style={styles.headerLeft}
+          onPress={() => navigation.navigate('Main')}>
+          <View style={styles.headerLeft}>
+            <Icon name="arrow-back-outline" color={colors.black} size={20} />
+          </View>
+        </TouchableOpacity>
         <View style={styles.headerRight}>
           <View>
             <Icon
@@ -73,48 +84,48 @@ export default function ProductDetail(props) {
             />
           </View>
         </View>
-      </View>
-
+      </View> */}
       <View style={styles.mainContainer}>
+        {isLoading ? (
+          <Text style={{textAlign:'center',marginTop:2}}>Please wait...</Text>
+          ) : (
         <ScrollView style={styles.scroll}>
-          <View style={styles.headerText}>
-            <View style={styles.header1}>
-              <Text style={styles.headertext}>Paradise Biryani</Text>
-              <Text style={styles.headertext1}>Biryani</Text>
-              <Text style={styles.headerdesc}>
-                2-89/1, Near Tirupati Chittor, West Road, Padmavathi Puram
-                Panchayati, Srinivasapuram, Tiruchanur, Tirupati
-              </Text>
-              <View style={styles.headeeTimer}>
-                <View style={styles.timer1}>
-                  <Icon name="alarm-outline" color={colors.black} size={20} />
-                  <Text style={styles.timer2}>28 mins</Text>
-                </View>
+          <View style={styles.item}>
+            <Image
+              source={{
+                uri: productInfo?.image,
+              }}
+              style={styles.itemPhoto}
+              resizeMode="contain"
+              alt="test"
+            />
+
+            <View style={styles.rating}>
+              <View style={styles.rating1}>
+                <Text>{productInfo?.rating?.rate}</Text>
+                <Icon name="star-sharp" size={12} color={colors.green} style={styles.icon}/>
               </View>
-            </View>
-            <View style={styles.header2}>
-              <View style={styles.header2View}>
-                <Text style={styles.header2Text}>4.1</Text>
-                <Icon
-                  name="star-sharp"
-                  size={12}
-                  color={colors.white}
-                  style={styles.icon}
-                />
-              </View>
-              <View style={styles.header2View1}>
-                <Text style={styles.header2View1Text}>231</Text>
-                <Text style={styles.header2View1Text}>Reviews</Text>
-              </View>
+              <View style={styles.verticleLine}></View>
+              <Text>{productInfo?.rating?.count}</Text>
             </View>
           </View>
-          <FlatList
-            data={Products}
-            renderItem={({item}) => <ListItem {...props} item={item} />}
-            showsHorizontalScrollIndicator={false}
-            {...props}
-          />
+
+          <View style={styles.detail}>
+            <Text style={styles.title}>{productInfo?.title}</Text>
+            <Text style={styles.subtitle}>{productInfo?.category}</Text>
+            <View style={styles.desc}>
+              <Text style={styles.price}>₹ {productInfo?.price}</Text>
+              <Text style={styles.priceLine}>₹ {productInfo?.price}</Text>
+              <Text style={styles.offer}>(78% OFF)</Text>
+            </View>
+            <Text style={styles.more}>Inclusive all taxes</Text>
+          </View>
+          <View style={styles.descriptionView}>
+            <Text style={styles.title}>Product Descirption</Text>
+            <Text style={styles.description}>{productInfo?.description}</Text>
+          </View>
         </ScrollView>
+        )} 
       </View>
     </View>
   );

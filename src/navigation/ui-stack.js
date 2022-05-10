@@ -11,12 +11,13 @@ import {hp} from '../dimensions';
 import AboutUs from '../screens/DrawerScreens/AboutUs';
 import UIBottomTabNavigator from './ui-bottom-tab';
 import ProductDetail from '../screens/ProductDetail';
+import ProductCategory from '../screens/ProductCategory';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
 export const UIStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
         name="Login"
         component={LoginScreen}
@@ -38,11 +39,20 @@ export const UIStack = () => {
         name="Details"
         component={ProductDetail}
         options={{
-          headerShown: false,
+          headerShown: true,
           headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
         }}
       />
-
+      <Stack.Screen
+        name="Category"
+        component={ProductCategory}
+        options={{
+          headerShown: true,
+          // headerBackTitleVisible: true,
+          headerTitleAlign: 'center',
+        }}
+      />
 
       {/* <Stack.Screen
         name="Main"
@@ -117,7 +127,6 @@ export const UIStack = () => {
           headerTintColor: colors.black,
         }}
       />
-      
     </Stack.Navigator>
   );
 };

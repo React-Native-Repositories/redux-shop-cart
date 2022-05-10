@@ -21,8 +21,8 @@ const ListItem = props => {
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('Details', {
-          itemId: 86,
-          otherParam: 'anything you want here',
+          itemId: props.item?.id,
+          // otherParam: 'anything you want here',
         })
       }>
       <View style={styles1.item}>
@@ -32,6 +32,7 @@ const ListItem = props => {
           }}
           style={styles1.itemPhoto}
           resizeMode="center"
+          alt="test"
         />
       </View>
       <View style={styles1.mainContainer}>
@@ -61,7 +62,7 @@ const ListItem = props => {
             <Text style={styles1.itemTextCategory}>
               {props.item?.category?.name}
             </Text>
-            <Text style={styles1.price}>₹ {props.item?.price} for one </Text>
+            <Text style={styles1.price}>₹ {props.item?.price}</Text>
           </View>
         </View>
       </View>

@@ -6,22 +6,33 @@ import {
   SectionList,
   FlatList,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {hp, wp} from '../../dimensions';
 import {colors} from '../../common/colors';
+import {useNavigation} from '@react-navigation/native';
 
 const ListItem = ({item}) => {
+  const navigation = useNavigation();
+  
   return (
     <View style={styles1.item}>
-      <Image
-        source={{
-          uri: 'https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-        }}
-        style={styles1.itemPhoto}
-        resizeMode="center"
-      />
-      <Text style={styles1.itemText}>{item}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Category', {
+            item: item,
+          })
+        }>
+        <Image
+          source={{
+            uri: 'https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+          }}
+          style={styles1.itemPhoto}
+          resizeMode="center"
+        />
+        <Text style={styles1.itemText}>{item}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -79,8 +90,8 @@ const styles1 = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    borderWidth:1,
-    borderColor:colors.textGray
+    borderWidth: 1,
+    borderColor: colors.textGray,
   },
   itemText: {
     color: colors.black,
