@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Button,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -13,6 +14,7 @@ import {styles} from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../common/colors';
 import {getSpecificProduct} from '../../services/Apis/products.service';
+import {hp} from '../../dimensions';
 
 <ion-icon name="add-circle-outline"></ion-icon>;
 
@@ -40,7 +42,7 @@ export default function ProductDetail(props) {
     try {
       setIsLoading(true);
       // let resp = await getSpecificProduct(2);
-         let resp = await getSpecificProduct(props.route?.params?.itemId);
+       let resp = await getSpecificProduct(props.route?.params?.itemId);
       if (resp) {
         setIsLoading(false);
         setProductInfo(resp);
@@ -87,45 +89,108 @@ export default function ProductDetail(props) {
       </View> */}
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <Text style={{textAlign:'center',marginTop:2}}>Please wait...</Text>
-          ) : (
-        <ScrollView style={styles.scroll}>
-          <View style={styles.item}>
-            <Image
-              source={{
-                uri: productInfo?.image,
-              }}
-              style={styles.itemPhoto}
-              resizeMode="contain"
-              alt="test"
-            />
+          <Text style={{textAlign: 'center', marginTop: 2}}>
+            Please wait...
+          </Text>
+        ) : (
+          <ScrollView style={styles.scroll}>
+            <View style={styles.item}>
+              <Image
+                source={{
+                  uri: productInfo?.image,
+                }}
+                style={styles.itemPhoto}
+                resizeMode="contain"
+                alt="test"
+              />
 
-            <View style={styles.rating}>
-              <View style={styles.rating1}>
-                <Text>{productInfo?.rating?.rate}</Text>
-                <Icon name="star-sharp" size={12} color={colors.green} style={styles.icon}/>
+              <View style={styles.rating}>
+                <View style={styles.rating1}>
+                  <Text>{productInfo?.rating?.rate}</Text>
+                  <Icon
+                    name="star-sharp"
+                    size={12}
+                    color={colors.green}
+                    style={styles.icon}
+                  />
+                </View>
+                <View style={styles.verticleLine}></View>
+                <Text>{productInfo?.rating?.count}</Text>
               </View>
-              <View style={styles.verticleLine}></View>
-              <Text>{productInfo?.rating?.count}</Text>
             </View>
-          </View>
 
-          <View style={styles.detail}>
-            <Text style={styles.title}>{productInfo?.title}</Text>
-            <Text style={styles.subtitle}>{productInfo?.category}</Text>
-            <View style={styles.desc}>
-              <Text style={styles.price}>₹ {productInfo?.price}</Text>
-              <Text style={styles.priceLine}>₹ {productInfo?.price}</Text>
-              <Text style={styles.offer}>(78% OFF)</Text>
+            <View style={styles.detail}>
+              <Text style={styles.title}>{productInfo?.title}</Text>
+              <Text style={styles.subtitle}>{productInfo?.category}</Text>
+              <View style={styles.desc}>
+                <Text style={styles.price}>₹ {productInfo?.price}</Text>
+                <Text style={styles.priceLine}>₹ {productInfo?.price}</Text>
+                <Text style={styles.offer}>(78% OFF)</Text>
+              </View>
+              <Text style={styles.more}>Inclusive all taxes</Text>
             </View>
-            <Text style={styles.more}>Inclusive all taxes</Text>
-          </View>
-          <View style={styles.descriptionView}>
-            <Text style={styles.title}>Product Descirption</Text>
-            <Text style={styles.description}>{productInfo?.description}</Text>
-          </View>
-        </ScrollView>
-        )} 
+            <View style={styles.descriptionView}>
+              <Text style={styles.title}>Product Descirption</Text>
+              <Text style={styles.description}>{productInfo?.description}</Text>
+            </View>
+          </ScrollView>
+        )}
+      </View>
+      <View
+        style={{
+          width: '100%',
+          height: hp(70),
+          borderWidth: 1,
+          borderColor: colors.textGray,
+          backgroundColor: colors.white,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+        }}>
+        <View
+          style={{
+            backgroundColor: colors.white,
+            color: colors.black,
+            padding: 10,
+            borderWidth: 1,
+            borderColor: colors.textGray,
+            marginLeft: '5%',
+            borderRadius: 5,
+            width: '40%',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <Icon
+            name="heart-outline"
+            size={20}
+            color={colors.black}
+            style={{marginRight: '5%'}}
+          />
+          <Text style={{color: colors.black}}>Wishlist</Text>
+        </View>
+        <View
+          style={{
+            backgroundColor: colors.red,
+            color: colors.white,
+            alignSelf: 'center',
+            padding: 10,
+            marginRight: '5%',
+            borderRadius: 5,
+            width: '40%',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <Icon
+            name="cart-outline"
+            size={20}
+            color={colors.white}
+            style={{marginRight: '5%'}}
+          />
+          <Text style={{color: colors.white, alignSelf: 'center'}}>
+            Add to cart
+          </Text>
+        </View>
       </View>
     </View>
   );
