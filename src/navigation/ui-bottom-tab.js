@@ -4,6 +4,7 @@ import DeliveryScreen from '../screens/TabScreens/DeliveryScreen';
 import HistoryScreen from '../screens/TabScreens/HistoryScreen';
 import MoneyScreen from '../screens/TabScreens/MoneyScreen';
 import OfferScreen from '../screens/TabScreens/OfferScreen';
+import CartScreen from '../screens/TabScreens/Cart';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Text, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -78,7 +79,7 @@ function UIBottomTabNavigator(props) {
       />
       <Tab.Screen
         name="Cart"
-        component={HistoryScreen}
+        component={CartScreen}
         options={{
           headerTitleStyle: {textAlign: 'left'},
           headerShown: true,

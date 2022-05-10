@@ -96,5 +96,6 @@ const styles1 = StyleSheet.create({
   itemText: {
     color: colors.black,
     marginTop: 5,
+    textAlign:'center'
   },
 });

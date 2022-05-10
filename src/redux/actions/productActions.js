@@ -28,3 +28,19 @@ export const productsListLoading = status => {
     payload: status,
   };
 };
+
+
+
+export const cartList = list => {
+  return {
+    type: ActionType.CART_LIST,
+    payload: list,
+  };
+};
+
+export const cartListLoading = status => {
+  return {
+    type: ActionType.CART_LOADING,
+    payload: status,
+  };
+};
