@@ -12,5 +12,6 @@ export const styles = StyleSheet.create({
   },
   scroll: {
     // width:'90%'
+    
   },
 });

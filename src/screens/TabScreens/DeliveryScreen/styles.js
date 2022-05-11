@@ -19,13 +19,13 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 5,
   },
-  headerWraper:{
+  headerWraper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  textHeaderLeft:{
-    color:colors.red,
-    fontSize:14
+  textHeaderLeft: {
+    color: colors.red,
+    fontSize: 14,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -67,5 +67,7 @@ export const styles = StyleSheet.create({
     width: 30,
     backgroundColor: '#cb202d',
     borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

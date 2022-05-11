@@ -11,6 +11,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import CircleSlider from '../../../components/CircleSlider';
 import FlatListSlider from '../../../components/FlatlistSlider/FlatListSlider';
@@ -218,7 +219,9 @@ function DeliveryScreen(props) {
         </View>
         <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
           <View style={styles.headerRight}>
-            <View style={styles.profile}></View>
+            <View style={styles.profile}>
+              <Text style={{color: 'white'}}>SK</Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -259,9 +262,10 @@ function DeliveryScreen(props) {
         </View>
         {props.categories.categoryLoading ? (
           <View>
-            <Text style={{textAlign: 'center', marginTop: 2}}>
+            {/* <Text style={{textAlign: 'center', marginTop: 2}}>
               Please wait...
-            </Text>
+            </Text> */}
+            <ActivityIndicator size="large" color={colors.red} />
           </View>
         ) : (
           <>
@@ -292,9 +296,10 @@ function DeliveryScreen(props) {
         </View>
         {props.productsList.productsLoading ? (
           <View>
-            <Text style={{textAlign: 'center', marginTop: 2}}>
+            {/* <Text style={{textAlign: 'center', marginTop: 2}}>
               Please wait...
-            </Text>
+            </Text> */}
+            <ActivityIndicator size="large" color={colors.red} />
           </View>
         ) : (
           <View style={{alignItems: 'center', justifyContent: 'center'}}>

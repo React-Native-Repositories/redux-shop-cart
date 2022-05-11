@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -13,12 +14,17 @@ import {Products} from '../../common/products';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../common/colors';
-import {getSpecificProduct} from '../../services/Apis/products.service';
+import {
+  addProductCart,
+  getSpecificProduct,
+} from '../../services/Apis/products.service';
 import {hp} from '../../dimensions';
+import {getCartListList} from '../../redux/actionCreators/cart';
+import {connect} from 'react-redux';
 
 <ion-icon name="add-circle-outline"></ion-icon>;
 
-export default function ProductDetail(props) {
+function ProductDetail(props) {
   const navigation = useNavigation();
   /* -------------------------------------------------------------------------- */
   /*                               UseState Section                             */
@@ -32,6 +38,7 @@ export default function ProductDetail(props) {
 
   useEffect(() => {
     getData();
+    props.getCartListList('1');
   }, []);
 
   /* -------------------------------------------------------------------------- */
@@ -42,7 +49,7 @@ export default function ProductDetail(props) {
     try {
       setIsLoading(true);
       // let resp = await getSpecificProduct(2);
-       let resp = await getSpecificProduct(props.route?.params?.itemId);
+      let resp = await getSpecificProduct(props.route?.params?.itemId);
       if (resp) {
         setIsLoading(false);
         setProductInfo(resp);
@@ -54,6 +61,20 @@ export default function ProductDetail(props) {
     }
   };
 
+  const handleAddCart = async products => {
+    try {
+      let payload = {
+        userId: 1,
+        products: [products],
+        date: '2022-05-11',
+      };
+      console.log(payload, '--------->');
+      let resp = await addProductCart(payload);
+      if (resp) {
+        props.getCartListList('1');
+      }
+    } catch (error) {}
+  };
   /* -------------------------------------------------------------------------- */
   /*                               Onchange section                             */
   /* -------------------------------------------------------------------------- */
@@ -89,9 +110,10 @@ export default function ProductDetail(props) {
       </View> */}
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <Text style={{textAlign: 'center', marginTop: 2}}>
-            Please wait...
-          </Text>
+          // <Text style={{textAlign: 'center', marginTop: 2}}>
+          //   Please wait...
+          // </Text>
+          <ActivityIndicator size="large" color={colors.red} />
         ) : (
           <ScrollView style={styles.scroll}>
             <View style={styles.item}>
@@ -169,29 +191,78 @@ export default function ProductDetail(props) {
           />
           <Text style={{color: colors.black}}>Wishlist</Text>
         </View>
-        <View
-          style={{
-            backgroundColor: colors.red,
-            color: colors.white,
-            alignSelf: 'center',
-            padding: 10,
-            marginRight: '5%',
-            borderRadius: 5,
-            width: '40%',
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
-          <Icon
-            name="cart-outline"
-            size={20}
-            color={colors.white}
-            style={{marginRight: '5%'}}
-          />
-          <Text style={{color: colors.white, alignSelf: 'center'}}>
-            Add to cart
-          </Text>
-        </View>
+        {props.cart?.cartList?.products.length > 0 &&
+        props.cart?.cartList?.products
+          .map(item => item.productId)
+          .includes(props.route?.params?.itemId) ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Cart')}
+            style={{
+              backgroundColor: colors.green,
+              color: colors.white,
+              alignSelf: 'center',
+              padding: 10,
+              marginRight: '5%',
+              borderRadius: 5,
+              width: '40%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Icon
+              name="checkmark-done"
+              size={20}
+              color={colors.white}
+              style={{marginRight: '5%'}}
+            />
+            <Text style={{color: colors.white, alignSelf: 'center'}}>
+              Go to cart
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{
+              backgroundColor: colors.red,
+              color: colors.white,
+              alignSelf: 'center',
+              padding: 10,
+              marginRight: '5%',
+              borderRadius: 5,
+              width: '40%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}
+            onPress={() =>
+              handleAddCart({
+                productId: props.route?.params?.itemId,
+                quantity: 1,
+              })
+            }>
+            <Icon
+              name="cart-outline"
+              size={20}
+              color={colors.white}
+              style={{marginRight: '5%'}}
+            />
+            <Text style={{color: colors.white, alignSelf: 'center'}}>
+              Add to cart
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    cart: state.cart,
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getCartListList: id => dispatch(getCartListList(id)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import DeliveryScreen from '../screens/TabScreens/DeliveryScreen';
 import HistoryScreen from '../screens/TabScreens/HistoryScreen';
@@ -9,11 +9,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Text, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {hp, wp} from '../dimensions';
+import {colors} from '../common/colors';
+import {connect} from 'react-redux';
+import {getCartListList} from '../redux/actionCreators/cart';
 
 const Tab = createBottomTabNavigator();
 
 function UIBottomTabNavigator(props) {
   const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    props.getCartListList('1');
+  }, []);
 
   return (
     <Tab.Navigator
@@ -89,11 +96,43 @@ function UIBottomTabNavigator(props) {
               <View style={styles.labelFocusedContainer}>
                 <Icon name="ios-cart" size={20} color={'#cb202d'} />
                 <Text style={styles.labelFocusedStyle}>Cart</Text>
+                <View
+                  style={{
+                    height: 20,
+                    width: 20,
+                    borderRadius: 10,
+                    backgroundColor: colors.red,
+                    position: 'absolute',
+                    top: 0,
+                    right: 12,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{color: colors.white}}>
+                    {props?.cart?.cartList?.products?.length}
+                  </Text>
+                </View>
               </View>
             ) : (
               <View style={styles.labelContainer}>
                 <Icon name="ios-cart" size={20} color={'black'} />
                 <Text style={styles.labelStyle}>Cart</Text>
+                <View
+                  style={{
+                    height: 20,
+                    width: 20,
+                    borderRadius: 10,
+                    backgroundColor: colors.black,
+                    position: 'absolute',
+                    top: 0,
+                    right: 12,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{color: colors.white,fontSize:10}}>
+                    {props?.cart?.cartList?.products?.length}
+                  </Text>
+                </View>
               </View>
             );
           },
@@ -187,4 +226,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UIBottomTabNavigator;
+const mapStateToProps = state => {
+  return {
+    cart: state.cart,
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getCartListList: id => dispatch(getCartListList(id)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UIBottomTabNavigator);
